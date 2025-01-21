@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/models/task_model.dart';
 import 'package:firebase_flutter/tasks/task_service.dart';
 import 'package:firebase_flutter/comments/comments_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_flutter/bloc/auth/auth_bloc.dart';
+import 'package:firebase_flutter/bloc/auth/auth_event.dart';
 
 class TeamMemberDashboard extends StatefulWidget {
   const TeamMemberDashboard({super.key});
@@ -72,8 +75,8 @@ class _TeamMemberDashboardState extends State<TeamMemberDashboard> {
     return tasksQuery;
   }
 
-  void _logout() async {
-    await FirebaseAuth.instance.signOut();
+  void _logout() {
+    context.read<AuthBloc>().add(LogoutEvent());
     Navigator.pushReplacementNamed(context, '/');
   }
 

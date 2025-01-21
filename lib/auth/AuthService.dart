@@ -99,4 +99,8 @@ class AuthService {
     }
     throw Exception('User not logged in');
   }
+
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }

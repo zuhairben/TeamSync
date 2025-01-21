@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class SignupScreen extends StatefulWidget {
   final void Function(String email, String password, String role) signup;
-  final void Function() login; // Added login callback for navigation
+  final void Function() login;
 
   const SignupScreen({super.key, required this.signup, required this.login});
 
@@ -141,7 +141,13 @@ class _SignupScreen extends State<SignupScreen> {
                     passwordController.text,
                     selectedRole,
                   );
+
+                  // Defer navigation to ensure it's not within the same frame as signup.
+                  Future.microtask(() {
+                    Navigator.pushReplacementNamed(context, '/');
+                  });
                 },
+
                 child: Text(
                   "Sign Up",
                   style: GoogleFonts.nunito(
@@ -162,7 +168,11 @@ class _SignupScreen extends State<SignupScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: widget.login,
+                    onPressed: () {
+                      Future.microtask(() {
+                        widget.login();
+                      });
+                    },
                     child: Text(
                       "Log in",
                       style: GoogleFonts.nunito(

@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/pages/manage_tasks_page.dart';
 import 'package:firebase_flutter/pages/team_activity_page.dart';
 import 'package:firebase_flutter/pages/manage_users_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:firebase_flutter/bloc/auth/auth_event.dart';
+import 'package:firebase_flutter/bloc/auth/auth_bloc.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({Key? key}) : super(key: key);
@@ -46,10 +49,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
     }
   }
 
-  void _logout() async {
-    await FirebaseAuth.instance.signOut();
+  void _logout() {
+    context.read<AuthBloc>().add(LogoutEvent());
     Navigator.pushReplacementNamed(context, '/');
   }
+
 
   @override
   Widget build(BuildContext context) {
